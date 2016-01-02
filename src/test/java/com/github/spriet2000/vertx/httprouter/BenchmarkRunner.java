@@ -7,11 +7,11 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.IOException;
 
-public class BenchMarksRunner {
+public class BenchmarkRunner {
 
     public static void main(String... args) throws IOException, RunnerException {
         Options opt = new OptionsBuilder()
-                .include(".*" + BenchMark1.class.getSimpleName() + ".*")
+                .include(".*" + BenchmarkCompare.class.getSimpleName() + ".*")
                 .forks(1)
                 .build();
         new Runner(opt).run();

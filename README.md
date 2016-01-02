@@ -2,6 +2,16 @@
 
 [![Build Status](https://travis-ci.org/spriet2000/vertx-http-router.svg?branch=master)](https://travis-ci.org/spriet2000/vertx-http-router)
 
+## Performance
+
+Throughput in operations per second
+
+RouteMatcher  | HttpRouter
+------------- | -------------
+52519.284     | 263115.196
+
+You can measure it on your own machine by using the BenchmarkRunner. The http-router should be around 5 times faster than a regex based RouteMatcher.
+
 ## Example
 
 ```java

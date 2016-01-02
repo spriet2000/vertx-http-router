@@ -6,7 +6,7 @@
 
 Throughput in operations per second
 
-RouteMatcher  | HttpRouter
+RouteMatcher  | Vert.x http-router
 ------------- | -------------
 52519.284     | 263115.196
 

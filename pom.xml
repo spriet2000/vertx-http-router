@@ -35,6 +35,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>1.11.2</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

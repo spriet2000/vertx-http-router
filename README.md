@@ -45,6 +45,7 @@ Details about the comparison can be found [here](https://github.com/spriet2000/v
 * simple and lightweight
 * easy to integrate
 * high performance
+* scalable
 
 ## Installation
 

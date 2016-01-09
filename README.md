@@ -8,7 +8,7 @@ Throughput in operations per second
 
 RouteMatcher  | Vert.x http-router
 ------------- | -------------
-164305.285    | 611959.589
+170054.737    | 661853.822
 
 You can measure it on your own machine by using the BenchmarkRunner. 
 The http-router should be at least 3 times faster than a regex based RouteMatcher.

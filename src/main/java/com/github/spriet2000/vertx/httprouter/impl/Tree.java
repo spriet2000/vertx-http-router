@@ -27,73 +27,6 @@ public final class Tree {
         return route;
     }
 
-    private void addNode(String path, Node node, RouteHandler handler) throws Exception {
-        int matchingChars = 0;
-        while (matchingChars < path.length()
-                && matchingChars < node.key().length()) {
-            if (path.charAt(matchingChars) != node.key().charAt(matchingChars)) {
-                break;
-            }
-            matchingChars++;
-        }
-        if (node.key().equals("")
-                || matchingChars == 0
-                || (matchingChars < path.length()
-                && matchingChars >= node.key().length())) {
-
-            boolean flag = false;
-            String newText = path.substring(matchingChars, path.length());
-            for (Node child : node.children()) {
-                if (child.key().startsWith(newText.charAt(0) + "")) {
-                    flag = true;
-                    addNode(newText, child, handler);
-                    break;
-                }
-            }
-
-            if (!flag) {
-                Node n = new Node();
-                n.key(newText);
-                n.value(handler);
-                node.children().add(n);
-                node.sort();
-            }
-        } else if (matchingChars == path.length()
-                && matchingChars == node.key().length()) {
-            throw new Exception("Duplicate trail");
-        } else if (matchingChars > 0
-                && matchingChars < node.key().length()) {
-            Node n1 = new Node();
-            n1.key(node.key().substring(matchingChars, node.key().length()));
-            n1.value(node.value());
-            n1.children(node.children());
-            node.value(null);
-            node.key(path.substring(0, matchingChars));
-            node.children(new ArrayList<>());
-            node.children().add(n1);
-            node.sort();
-            if (matchingChars < path.length()) {
-                Node n2 = new Node();
-                n2.key(path.substring(matchingChars, path.length()));
-                n2.value(handler);
-                node.value(null);
-                node.children().add(n2);
-                node.sort();
-            } else {
-                node.value(handler);
-            }
-        } else {
-            Node n = new Node();
-            n.key(node.key().substring(matchingChars, node.key().length()));
-            n.value(node.value());
-            n.children(node.children());
-            node.value(null);
-            node.key(path);
-            node.children().add(n);
-            node.sort();
-        }
-    }
-
     private void find(String path, Route route, Node node, int keyIndex, int pathIndex) {
         int keyLength = node.key().length();
         int pathLength = path.length();
@@ -229,6 +162,73 @@ public final class Tree {
                 || key.charAt(keyIndex) == '*'
                 || pathLength != pathIndex
                 && path.charAt(pathIndex) == key.charAt(keyIndex);
+    }
+
+    private void addNode(String path, Node node, RouteHandler handler) throws Exception {
+        int matchingChars = 0;
+        while (matchingChars < path.length()
+                && matchingChars < node.key().length()) {
+            if (path.charAt(matchingChars) != node.key().charAt(matchingChars)) {
+                break;
+            }
+            matchingChars++;
+        }
+        if (node.key().equals("")
+                || matchingChars == 0
+                || (matchingChars < path.length()
+                && matchingChars >= node.key().length())) {
+
+            boolean flag = false;
+            String newText = path.substring(matchingChars, path.length());
+            for (Node child : node.children()) {
+                if (child.key().startsWith(newText.charAt(0) + "")) {
+                    flag = true;
+                    addNode(newText, child, handler);
+                    break;
+                }
+            }
+
+            if (!flag) {
+                Node n = new Node();
+                n.key(newText);
+                n.value(handler);
+                node.children().add(n);
+                node.sort();
+            }
+        } else if (matchingChars == path.length()
+                && matchingChars == node.key().length()) {
+            throw new Exception("Duplicate trail");
+        } else if (matchingChars > 0
+                && matchingChars < node.key().length()) {
+            Node n1 = new Node();
+            n1.key(node.key().substring(matchingChars, node.key().length()));
+            n1.value(node.value());
+            n1.children(node.children());
+            node.value(null);
+            node.key(path.substring(0, matchingChars));
+            node.children(new ArrayList<>());
+            node.children().add(n1);
+            node.sort();
+            if (matchingChars < path.length()) {
+                Node n2 = new Node();
+                n2.key(path.substring(matchingChars, path.length()));
+                n2.value(handler);
+                node.value(null);
+                node.children().add(n2);
+                node.sort();
+            } else {
+                node.value(handler);
+            }
+        } else {
+            Node n = new Node();
+            n.key(node.key().substring(matchingChars, node.key().length()));
+            n.value(node.value());
+            n.children(node.children());
+            node.value(null);
+            node.key(path);
+            node.children().add(n);
+            node.sort();
+        }
     }
 
 }

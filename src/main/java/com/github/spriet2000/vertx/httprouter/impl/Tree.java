@@ -5,7 +5,7 @@ import com.github.spriet2000.vertx.httprouter.RouteHandler;
 
 import java.util.ArrayList;
 
-public class Tree {
+public final class Tree {
     private final Node root = new Node();
 
     public Node root() {

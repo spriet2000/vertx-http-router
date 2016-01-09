@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Node {
+public final class Node {
     private List<Node> children = new ArrayList<>();
 
     private String key = "";

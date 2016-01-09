@@ -85,7 +85,7 @@ public class BenchmarkCompare {
         }
     }
 
-    public void notNull( RouteMatcher.Route route) throws Exception {
+    public void notNull(RouteMatcher.Route route) throws Exception {
         if (route == null) {
             throw new Exception();
         }

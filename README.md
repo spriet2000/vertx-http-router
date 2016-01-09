@@ -8,10 +8,10 @@ Throughput in operations per second
 
 Regex router  | Vert.x http-router
 ------------- | -------------
-170054.737    | 661853.822
+169452.638    | 787186.502
 
 You can measure it on your own machine by using the BenchmarkRunner. 
-The http-router should be at least 3 times faster than a regex based RouteMatcher.
+The http-router should be at least 4 times faster than a regex based RouteMatcher.
 
 Details about the comparison can be found [here](https://github.com/spriet2000/vertx-http-router/blob/master/src/test/java/com/github/spriet2000/vertx/httprouter/BenchmarkCompare.java).
 

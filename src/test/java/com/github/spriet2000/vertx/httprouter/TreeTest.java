@@ -253,7 +253,7 @@ public class TreeTest extends VertxTestBase {
     }
 
     private void testRoute(Tree tree, String path, boolean handler, String trail, Map<String, String> params) {
-        Route route = tree.find(path);
+        Route route = tree.find(path, true);
         assertEquals(trail, route.trail());
         if (handler) {
             assertNotNull(route.handler());

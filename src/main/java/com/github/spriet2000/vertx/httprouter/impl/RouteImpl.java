@@ -8,10 +8,19 @@ import java.util.Map;
 
 class RouteImpl implements Route {
 
-    private final StringBuilder trail = new StringBuilder();
+    private StringBuilder trail;
 
     private Map<String, String> parameters;
     private RouteHandler handler;
+
+    private boolean useTrail;
+
+    RouteImpl(boolean useTrail){
+        this.useTrail = useTrail;
+        if(useTrail){
+            trail = new StringBuilder();
+        }
+    }
 
     public RouteHandler handler() {
         return handler;
@@ -25,11 +34,16 @@ class RouteImpl implements Route {
     }
 
     public String trail() {
-        return trail.toString();
+        if(useTrail){
+            return trail.toString();
+        }
+        return "";
     }
 
     public void crumb(String crumb) {
-        this.trail.append(crumb);
+        if(useTrail){
+            this.trail.append(crumb);
+        }
     }
 
     public void handler(RouteHandler handler) {

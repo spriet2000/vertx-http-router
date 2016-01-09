@@ -22,19 +22,25 @@ public final class Tree {
     }
 
     public Route find(String path) {
-        Route route = new RouteImpl();
-        find(path, route, root(), 0, 0);
+        return find(path, false);
+    }
+
+    public Route find(String path, boolean useTrail) {
+        Route route = new RouteImpl(useTrail);
+        find(path, route, root());
         return route;
     }
 
-    private void find(String path, Route route, Node node, int keyIndex, int pathIndex) {
+    private void find(String path, Route route, Node node) {
+        int keyIndex = 0;
+        int pathIndex = 0;
         int keyLength = node.key().length();
         int pathLength = path.length();
 
         // ----------------
         // iterate chars
 
-        while (keyIndex < keyLength && isMatchingChar(node.key(), path, keyIndex, pathIndex, pathLength)) {
+        while (isNext(node.key(), path, keyIndex, keyLength, pathIndex, pathLength)) {
 
             // --------------------------
             // check wildcard parameter
@@ -96,7 +102,7 @@ public final class Tree {
 
             } else {
                 // -------------
-                // next char
+                // isNext char
 
                 keyIndex += 1;
                 pathIndex += 1;
@@ -151,21 +157,23 @@ public final class Tree {
                 // found node..
 
                 route.crumb(node.key());
-                find(path, route, child, 0, 0);
+                find(path, route, child);
                 break;
             }
         }
     }
 
-    private boolean isMatchingChar(String key, String path, int keyIndex, int pathIndex, int pathLength) {
-        return key.charAt(keyIndex) == ':'
-                || key.charAt(keyIndex) == '*'
-                || pathLength != pathIndex
-                && path.charAt(pathIndex) == key.charAt(keyIndex);
+    private boolean isNext(String key, String path, int keyIndex, int keyLength, int pathIndex, int pathLength) {
+        return  keyIndex < keyLength
+                && (key.charAt(keyIndex) == ':'
+                    || key.charAt(keyIndex) == '*'
+                    || pathLength > pathIndex
+                    && path.charAt(pathIndex) == key.charAt(keyIndex));
     }
 
     private void addNode(String path, Node node, RouteHandler handler) throws Exception {
         int matchingChars = 0;
+
         while (matchingChars < path.length()
                 && matchingChars < node.key().length()) {
             if (path.charAt(matchingChars) != node.key().charAt(matchingChars)) {

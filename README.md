@@ -38,7 +38,7 @@ Details about the comparison can be found [![here](https://github.com/spriet2000
 
 * make it feature complete
 * make it stable
-* analyze and improve performance
+* improve performance
 
 ## Goals for this router:
 

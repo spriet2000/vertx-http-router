@@ -4,7 +4,6 @@ import com.github.spriet2000.vertx.httprouter.Route;
 import com.github.spriet2000.vertx.httprouter.RouteHandler;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Tree {
     private final Node root = new Node();
@@ -13,9 +12,9 @@ public class Tree {
         return root;
     }
 
-    public Tree add(String path, RouteHandler handler) {
+    public Tree addNode(String path, RouteHandler handler) {
         try {
-            add(path, root(), handler);
+            addNode(path, root(), handler);
         } catch (Exception e) {
             throw new RuntimeException(String.format("Duplicate trail: '%s'", path));
         }
@@ -24,201 +23,11 @@ public class Tree {
 
     public Route find(String path) {
         Route route = new RouteImpl();
-        find(path, route, root());
+        find(path, route, root(), 0, 0);
         return route;
     }
 
-    private void find(String path, Route route, Node node) {
-        int keyLength = node.key().length();
-        int pathLength = path.length();
-        int keyIndex = 0;
-        int pathIndex = 0;
-
-        // ---------------
-        // iterate chars
-
-        while (keyIndex < keyLength && pathIndex < pathLength
-                && (node.key().charAt(keyIndex) == ':'
-                || node.key().charAt(keyIndex) == '*'
-                || path.charAt(pathIndex) == node.key().charAt(keyIndex))) {
-
-            // --------------------------
-            // check wildcard parameter
-
-            if (node.key().charAt(keyIndex) == '*') {
-
-                // ----------------------------
-                // extract wildcard parameter
-
-                String name = node.key().substring(keyIndex, keyLength);
-                String value = path.substring(pathIndex, pathLength);
-                route.parameters().put(name, value.charAt(0) != '/' ? String.format("/%s", value) : value);
-
-                // ---------
-                // endpoint
-
-                route.handler(node.value());
-                route.crumb(node.key());
-
-                return;
-            }
-
-            // -----------------------
-            // check named parameter
-
-            if (node.key().charAt(keyIndex) == ':') {
-
-                // -------------------------
-                // extract named parameter
-
-                int eofParamInPrefix = Path.findEndOfParameter(path, pathIndex);
-                int eofParamInKey = Path.findEndOfParameter(node.key(), keyIndex);
-                String name = node.key().substring(keyIndex, eofParamInKey);
-                route.parameters().put(name, path.substring(pathIndex, eofParamInPrefix));
-
-                // -------------
-                // set indexes
-
-                pathIndex = eofParamInPrefix - 1;
-                keyIndex = eofParamInKey - 1;
-
-            }
-
-            // ------
-            // next
-
-            keyIndex += 1;
-            pathIndex += 1;
-        }
-
-        // ------------
-        //  check end
-
-        if (pathIndex == pathLength
-                && keyIndex == keyLength) {
-
-            if (node.value() != null){
-
-                // -----------
-                // endpoint..
-
-                route.handler(node.value());
-                route.crumb(node.key());
-
-                return;
-            }
-
-            // ---------------------------------------
-            // check if child starts with parameter
-
-            node.children().forEach(c -> {
-                String first = String.valueOf(c.key().charAt(0));
-                if (Objects.equals(first, ":")
-                        || Objects.equals(first, "*")){
-                    find(first , route, c);
-                }
-            });
-
-            return;
-
-        }
-
-        // ------------------------------------------------
-        // char doesn't match, still path chars to iterate
-
-        if (pathIndex < pathLength) {
-
-            // ------------------------------
-            // trailing slash
-
-            if (keyLength > 0
-                    && pathIndex + 1 == pathLength
-                    && path.charAt(pathIndex) == '/') {
-
-                // ------------
-                // endpoint..
-
-                route.handler(node.value());
-                route.crumb(node.key());
-
-                return;
-            }
-
-            // ----------------------------
-            // search children of current
-
-            String newText = path.substring(pathIndex, pathLength);
-            for (Node child : node.children()) {
-                if (child.key().startsWith(newText.charAt(0) + "")
-                        || child.key().startsWith(":")
-                        || child.key().startsWith("*")) {
-                    route.crumb(node.key().substring(0, keyIndex));
-                    find(newText, route, child);
-                    break;
-                }
-            }
-            return;
-        }
-
-        // ------------------------------
-        // still key chars to iterate
-
-        if (keyIndex < keyLength) {
-
-            // ------------------------------
-            // trailing slash
-
-            if (keyIndex + 1 == keyLength
-                    && node.key().charAt(keyIndex) == '/') {
-
-                // ------------
-                // endpoint..
-
-                route.handler(node.value());
-                route.crumb(node.key());
-
-                return;
-            }
-
-            // ------------------------------
-            // check parameters in key
-
-            while (keyIndex < keyLength) {
-                if (node.key().charAt(keyIndex) == '*') {
-
-                    // ----------------------------
-                    // extract wildcard parameter
-
-                    route.parameters().put(node.key().substring(keyIndex, keyLength), "/");
-
-                    // ------------
-                    // endpoint..
-
-                    route.handler(node.value());
-                    route.crumb(node.key());
-
-                    return;
-                }
-                if (node.key().charAt(keyIndex) == ':') {
-
-                    // -------------------------
-                    // extract named parameter
-
-                    int eofParamInKey = Path.findEndOfParameter(node.key(), keyIndex);
-                    route.parameters().put(node.key().substring(keyIndex, eofParamInKey), "");
-
-                    // -------------
-                    // set indexes
-
-                    keyIndex = eofParamInKey - 1;
-
-                }
-                keyIndex += 1;
-            }
-        }
-    }
-
-    private void add(String path, Node node, RouteHandler handler) throws Exception {
+    private void addNode(String path, Node node, RouteHandler handler) throws Exception {
         int matchingChars = 0;
         while (matchingChars < path.length()
                 && matchingChars < node.key().length()) {
@@ -231,15 +40,17 @@ public class Tree {
                 || matchingChars == 0
                 || (matchingChars < path.length()
                 && matchingChars >= node.key().length())) {
+
             boolean flag = false;
             String newText = path.substring(matchingChars, path.length());
             for (Node child : node.children()) {
                 if (child.key().startsWith(newText.charAt(0) + "")) {
                     flag = true;
-                    add(newText, child, handler);
+                    addNode(newText, child, handler);
                     break;
                 }
             }
+
             if (!flag) {
                 Node n = new Node();
                 n.key(newText);
@@ -281,6 +92,143 @@ public class Tree {
             node.children().add(n);
             node.sort();
         }
+    }
+
+    private void find(String path, Route route, Node node, int keyIndex, int pathIndex) {
+        int keyLength = node.key().length();
+        int pathLength = path.length();
+
+        // ----------------
+        // iterate chars
+
+        while (keyIndex < keyLength && isMatchingChar(node.key(), path, keyIndex, pathIndex, pathLength)) {
+
+            // --------------------------
+            // check wildcard parameter
+
+            if (node.key().charAt(keyIndex) == '*') {
+
+                // ----------------------------
+                // extract wildcard parameter
+
+                String name = node.key().substring(keyIndex, keyLength);
+                String value = path.substring(pathIndex, pathLength);
+
+                if (value.isEmpty()) {
+                    value = "/";
+                } else {
+                    if (value.charAt(0) != '/') {
+                        value = String.format("/%s", value);
+                    }
+                }
+
+                // ---------------------
+                // set parameter value
+
+                route.parameters().put(name, value);
+
+                // ------------------------------------
+                // wildcard is always an endpoint
+
+                route.handler(node.value());
+                route.crumb(node.key());
+
+                return;
+            }
+
+            // -----------------------
+            // check named parameter
+
+            if (node.key().charAt(keyIndex) == ':') {
+
+                // -------------------------
+                // extract named parameter
+
+                int eofParamInPrefix = Path.findEndOfParameter(path, pathIndex);
+                int eofParamInKey = Path.findEndOfParameter(node.key(), keyIndex);
+
+                String name = node.key().substring(keyIndex, eofParamInKey);
+                String value = path.substring(pathIndex, eofParamInPrefix);
+
+                // ---------------------
+                // set parameter value
+
+                route.parameters().put(name, value);
+
+                // --------------------------------------------------
+                // set indexes to first char after eof parameter
+
+                pathIndex = eofParamInPrefix;
+                keyIndex = eofParamInKey;
+
+            } else {
+                // -------------
+                // next char
+
+                keyIndex += 1;
+                pathIndex += 1;
+            }
+        }
+
+        // ------------------------------
+        // trailing slash
+
+        boolean isTrailingSlash = false;
+        if (!node.key().isEmpty()
+                && pathLength - pathIndex == 1
+                && path.charAt(pathLength - 1) == '/') {
+            isTrailingSlash = true;
+        }
+
+        // ------------
+        //  check end
+
+        if (pathLength == 1 && keyLength == 1 && path.charAt(0) == '/' && node.value() == null) {
+
+            // ---------------------------
+            // find child node..
+
+            findChildNode(node, "/", route);
+
+        } else if (pathLength == pathIndex || isTrailingSlash) {
+
+            // -----
+            // end
+
+            route.handler(node.value());
+            route.crumb(node.key());
+
+        } else {
+
+            // ---------------------------
+            // find matching child node..
+
+            String newPath = path.substring(pathIndex, pathLength);
+            findChildNode(node, newPath, route);
+        }
+    }
+
+    private void findChildNode(Node node, String path, Route route) {
+        for (Node child : node.children()) {
+            if (child.key().startsWith(path.charAt(0) + "")
+                    || child.key().startsWith(":")
+                    || child.key().startsWith("*")) {
+
+                // ---------------
+                // found node..
+
+                route.crumb(node.key());
+                find(path, route, child, 0, 0);
+                break;
+            }
+        }
+    }
+
+    private boolean isMatchingChar(String key, String path, int keyIndex, int pathIndex, int pathLength) {
+        return key.charAt(keyIndex) == ':'
+                || key.charAt(keyIndex) == '*'
+                || pathLength != pathIndex
+                && path.charAt(pathIndex) == key.charAt(keyIndex);
     }
 
 }

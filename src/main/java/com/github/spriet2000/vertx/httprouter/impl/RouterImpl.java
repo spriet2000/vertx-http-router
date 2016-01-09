@@ -25,7 +25,7 @@ public class RouterImpl implements Router {
         if (getTree == null) {
             getTree = new Tree();
         }
-        getTree.add(Path.format(path), handler);
+        getTree.addNode(Path.format(path), handler);
         return this;
     }
 
@@ -39,7 +39,7 @@ public class RouterImpl implements Router {
         if (headTree == null) {
             headTree = new Tree();
         }
-        headTree.add(Path.format(path), handler);
+        headTree.addNode(Path.format(path), handler);
         return this;
     }
 
@@ -53,7 +53,7 @@ public class RouterImpl implements Router {
         if (postTree == null) {
             postTree = new Tree();
         }
-        postTree.add(Path.format(path), handler);
+        postTree.addNode(Path.format(path), handler);
         return this;
     }
 
@@ -67,7 +67,7 @@ public class RouterImpl implements Router {
         if (putTree == null) {
             putTree = new Tree();
         }
-        putTree.add(Path.format(path), handler);
+        putTree.addNode(Path.format(path), handler);
         return this;
     }
 
@@ -81,7 +81,7 @@ public class RouterImpl implements Router {
         if (patchTree == null) {
             patchTree = new Tree();
         }
-        patchTree.add(Path.format(path), handler);
+        patchTree.addNode(Path.format(path), handler);
         return this;
     }
 
@@ -95,7 +95,7 @@ public class RouterImpl implements Router {
         if (deleteTree == null) {
             deleteTree = new Tree();
         }
-        deleteTree.add(Path.format(path), handler);
+        deleteTree.addNode(Path.format(path), handler);
         return this;
     }
 

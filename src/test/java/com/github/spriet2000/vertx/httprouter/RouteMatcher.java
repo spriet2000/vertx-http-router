@@ -26,7 +26,7 @@ public class RouteMatcher {
 
     private void addPattern(String input, Handler<HttpServerRequest> handler) {
         // We need to search for any :<token name> tokens in the String and replace them with named capture groups
-        Matcher m =  Pattern.compile(":([A-Za-z][A-Za-z0-9_]*)").matcher(input);
+        Matcher m = Pattern.compile(":([A-Za-z][A-Za-z0-9_]*)").matcher(input);
         StringBuffer sb = new StringBuffer();
         Set<String> groups = new HashSet<>();
         while (m.find()) {
@@ -44,13 +44,13 @@ public class RouteMatcher {
     }
 
     private Route route(String path, List<PatternBinding> bindings) {
-        for (PatternBinding binding: bindings) {
+        for (PatternBinding binding : bindings) {
             Matcher m = binding.pattern.matcher(path);
             if (m.matches()) {
                 Map<String, String> params = new HashMap<>(m.groupCount());
                 if (binding.paramNames != null) {
                     // Named params
-                    for (String param: binding.paramNames) {
+                    for (String param : binding.paramNames) {
                         params.put(param, m.group(param));
                     }
                 } else {
@@ -77,11 +77,11 @@ public class RouteMatcher {
         }
     }
 
-    public class Route{
+    public class Route {
         private Map<String, String> params;
         private String path;
 
-        public Route(Map<String, String> params, String path){
+        public Route(Map<String, String> params, String path) {
 
             this.params = params;
             this.path = path;

@@ -13,24 +13,24 @@ public class BenchmarkCompare {
         };
 
         Tree tree = new Tree()
-                .add("/", handler)
-                .add("/cmd/:tool/:sub", handler)
-                .add("/cmd/:tool/", handler)
-                .add("/src/*filepath", handler)
-                .add("/search/", handler)
-                .add("/search/:query", handler)
-                .add("/user_:name", handler)
-                .add("/user_:name/about", handler)
-                .add("/files/:dir/*filepath", handler)
-                .add("/doc/", handler)
-                .add("/doc/go_faq.html", handler)
-                .add("/doc/go1.html", handler)
-                .add("/info/:user/public", handler)
-                .add("/info/:user/project/:project", handler);
+                .addNode("/", handler)
+                .addNode("/cmd/:tool/:sub", handler)
+                .addNode("/cmd/:tool/", handler)
+                .addNode("/src/*filepath", handler)
+                .addNode("/search/", handler)
+                .addNode("/search/:query", handler)
+                .addNode("/user_:name", handler)
+                .addNode("/user_:name/about", handler)
+                .addNode("/files/:dir/*filepath", handler)
+                .addNode("/doc/", handler)
+                .addNode("/doc/go_faq.html", handler)
+                .addNode("/doc/go1.html", handler)
+                .addNode("/info/:user/public", handler)
+                .addNode("/info/:user/project/:project", handler);
 
         Route route = tree.find("/info/gordon/project/java");
 
-        if(route.handler() == null){
+        if (route.handler() == null) {
             throw new Exception();
         }
 
@@ -43,26 +43,26 @@ public class BenchmarkCompare {
 
         RouteMatcher matcher = new RouteMatcher();
 
-        matcher.add("/" ,handler)
-                .add("/cmd/:tool/:sub" ,handler)
-                .add("/cmd/:tool/" ,handler)
-                .add("/src/*filepath" ,handler)
-                .add("/search/" ,handler)
-                .add("/search/:query" ,handler)
-                .add("/user_:name" ,handler)
-                .add("/user_:name/about" ,handler)
-                .add("/files/:dir/*filepath" ,handler)
-                .add("/cmd/:tool/:sub" ,handler)
-                .add("/doc/" ,handler)
-                .add("/cmd/:tool/:sub" ,handler)
-                .add("/doc/go_faq.html" ,handler)
-                .add("/doc/go1.html" ,handler)
-                .add("/info/:user/public" ,handler)
-                .add("/info/:user/project/:project" ,handler);
+        matcher.add("/", handler)
+                .add("/cmd/:tool/:sub", handler)
+                .add("/cmd/:tool/", handler)
+                .add("/src/*filepath", handler)
+                .add("/search/", handler)
+                .add("/search/:query", handler)
+                .add("/user_:name", handler)
+                .add("/user_:name/about", handler)
+                .add("/files/:dir/*filepath", handler)
+                .add("/cmd/:tool/:sub", handler)
+                .add("/doc/", handler)
+                .add("/cmd/:tool/:sub", handler)
+                .add("/doc/go_faq.html", handler)
+                .add("/doc/go1.html", handler)
+                .add("/info/:user/public", handler)
+                .add("/info/:user/project/:project", handler);
 
         RouteMatcher.Route route = matcher.find("/info/gordon/project/java");
 
-        if(route == null){
+        if (route == null) {
             throw new Exception();
         }
     }

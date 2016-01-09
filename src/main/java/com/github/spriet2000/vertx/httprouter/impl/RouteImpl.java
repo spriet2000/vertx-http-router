@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 class RouteImpl implements Route {
+
+    private final StringBuilder trail = new StringBuilder();
+
     private Map<String, String> parameters;
     private RouteHandler handler;
-    private String trail = "";
 
     public RouteHandler handler() {
         return handler;
@@ -23,11 +25,11 @@ class RouteImpl implements Route {
     }
 
     public String trail() {
-        return trail;
+        return trail.toString();
     }
 
     public void crumb(String crumb) {
-        this.trail += crumb;
+        this.trail.append(crumb);
     }
 
     public void handler(RouteHandler handler) {

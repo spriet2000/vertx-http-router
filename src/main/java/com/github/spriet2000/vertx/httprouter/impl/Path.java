@@ -1,5 +1,7 @@
 package com.github.spriet2000.vertx.httprouter.impl;
 
+import java.util.Objects;
+
 class Path {
     public static int findEndOfParameter(String path, int start) {
         int index;
@@ -12,7 +14,7 @@ class Path {
     }
 
     public static String clean(String path) {
-        if (path == "") {
+        if (Objects.equals(path, "")) {
             path = "/";
             return path;
         }

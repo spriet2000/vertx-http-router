@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Node {
+    private List<Node> children = new ArrayList<>();
+
     private String key = "";
     private RouteHandler value;
-    private List<Node> children = new ArrayList<>();
     private int priority = 0;
 
     public RouteHandler value() {
@@ -58,8 +59,7 @@ public class Node {
     }
 
     public void sort() {
-        children = children
-                .stream()
+        children = children.stream()
                 .sorted((e1, e2) -> Integer.compare(e2.priority(), e1.priority()))
                 .collect(Collectors.toList());
     }

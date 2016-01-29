@@ -23,7 +23,7 @@ public class TreeTest extends VertxTestBase {
 
         TreePrinter.print(tree);
 
-        testRoute(tree, "/", true, "/*filepath3", params("*filepath3", "/"));
+        testRoute(tree, "/", true, "/*filepath3", params("filepath3", "/"));
     }
 
     @Test
@@ -68,21 +68,21 @@ public class TreeTest extends VertxTestBase {
         TreePrinter.print(tree);
 
         testRoute(tree, "/", true, "/", null);
-        testRoute(tree, "/cmd/test/", true, "/cmd/:tool/", params(":tool", "test"));
-        testRoute(tree, "/cmd/test", true, "/cmd/:tool/", params(":tool", "test"));
-        testRoute(tree, "/cmd/test/3", true, "/cmd/:tool/:sub", params(":tool", "test", ":sub", "3"));
-        testRoute(tree, "/src/", true, "/src/*filepath", params("*filepath", "/"));
-        testRoute(tree, "/src/some/file.png", true, "/src/*filepath", params("*filepath", "/some/file.png"));
+        testRoute(tree, "/cmd/test/", true, "/cmd/:tool/", params("tool", "test"));
+        testRoute(tree, "/cmd/test", true, "/cmd/:tool/", params("tool", "test"));
+        testRoute(tree, "/cmd/test/3", true, "/cmd/:tool/:sub", params("tool", "test", "sub", "3"));
+        testRoute(tree, "/src/", true, "/src/*filepath", params("filepath", "/"));
+        testRoute(tree, "/src/some/file.png", true, "/src/*filepath", params("filepath", "/some/file.png"));
         testRoute(tree, "/search/", true, "/search/", null);
-        testRoute(tree, "/search/someth!ng+in+ünìcodé", true, "/search/:query", params(":query", "someth!ng+in+ünìcodé"));
-        testRoute(tree, "/search/someth!ng+in+ünìcodé/", true, "/search/:query", params(":query", "someth!ng+in+ünìcodé"));
-        testRoute(tree, "/user_gopher", true, "/user_:name", params(":name", "gopher"));
-        testRoute(tree, "/user_gopher/about", true, "/user_:name/about", params(":name", "gopher"));
+        testRoute(tree, "/search/someth!ng+in+ünìcodé", true, "/search/:query", params("query", "someth!ng+in+ünìcodé"));
+        testRoute(tree, "/search/someth!ng+in+ünìcodé/", true, "/search/:query", params("query", "someth!ng+in+ünìcodé"));
+        testRoute(tree, "/user_gopher", true, "/user_:name", params("name", "gopher"));
+        testRoute(tree, "/user_gopher/about", true, "/user_:name/about", params("name", "gopher"));
         testRoute(tree, "/files/js/inc/framework.js", true, "/files/:dir/*filepath",
-                params(":dir", "js", "*filepath", "/inc/framework.js"));
-        testRoute(tree, "/info/gordon/public", true, "/info/:user/public", params(":user", "gordon"));
+                params("dir", "js", "filepath", "/inc/framework.js"));
+        testRoute(tree, "/info/gordon/public", true, "/info/:user/public", params("user", "gordon"));
         testRoute(tree, "/info/gordon/project/java", true, "/info/:user/project/:project",
-                params(":user", "gordon", ":project", "java"));
+                params("user", "gordon", "project", "java"));
 
         testComplete();
     }
@@ -111,7 +111,7 @@ public class TreeTest extends VertxTestBase {
         TreePrinter.print(tree);
 
         // whats so special about this??
-        testRoute(tree, "/src/", true, "/src/*filepath", params("*filepath", "/"));
+        testRoute(tree, "/src/", true, "/src/*filepath", params("filepath", "/"));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class TreeTest extends VertxTestBase {
         TreePrinter.print(tree);
 
         // whats so special about this??
-        testRoute(tree, "/cmd/test", true, "/cmd/:tool/", params(":tool", "test"));
+        testRoute(tree, "/cmd/test", true, "/cmd/:tool/", params("tool", "test"));
     }
 
     @Test
@@ -165,7 +165,7 @@ public class TreeTest extends VertxTestBase {
         TreePrinter.print(tree);
 
         // whats so special about this??
-        testRoute(tree, "/cmd/test/3", true, "/cmd/:tool/:sub", params(":tool", "test", ":sub", "3"));
+        testRoute(tree, "/cmd/test/3", true, "/cmd/:tool/:sub", params("tool", "test", "sub", "3"));
     }
 
     @Test
@@ -192,7 +192,7 @@ public class TreeTest extends VertxTestBase {
         TreePrinter.print(tree);
 
         // whats so special about this??
-        testRoute(tree, "/search/someth!ng+in+ünìcodé/", true, "/search/:query", params(":query", "someth!ng+in+ünìcodé"));
+        testRoute(tree, "/search/someth!ng+in+ünìcodé/", true, "/search/:query", params("query", "someth!ng+in+ünìcodé"));
     }
 
     @Test
@@ -230,8 +230,8 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/*filepath", (request, parameters) -> {
                 });
 
-        testRoute(tree, "/dir/file1", true, "/dir/*filepath", params("*filepath", "/file1"));
-        testRoute(tree, "/file1", true, "/*filepath", params("*filepath", "/file1"));
+        testRoute(tree, "/dir/file1", true, "/dir/*filepath", params("filepath", "/file1"));
+        testRoute(tree, "/file1", true, "/*filepath", params("filepath", "/file1"));
 
     }
 

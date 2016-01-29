@@ -61,10 +61,10 @@ public final class Tree {
                     }
                 }
 
-                // ---------------------
-                // set parameter value
+                // ------------------------------------------------
+                // set parameter value, remove * in param name
 
-                route.parameters().put(name, value);
+                route.parameters().put(name.substring(1), value);
 
                 // ------------------------------------
                 // wildcard is always an endpoint
@@ -89,10 +89,10 @@ public final class Tree {
                 String name = node.key().substring(keyIndex, eofParamInKey);
                 String value = path.substring(pathIndex, eofParamInPrefix);
 
-                // ---------------------
-                // set parameter value
+                // ------------------------------------------------
+                // set parameter value, remove : in param name
 
-                route.parameters().put(name, value);
+                route.parameters().put(name.substring(1), value);
 
                 // --------------------------------------------------
                 // set indexes to first char after eof parameter

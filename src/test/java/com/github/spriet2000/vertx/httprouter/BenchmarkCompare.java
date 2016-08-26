@@ -75,7 +75,6 @@ public class BenchmarkCompare {
         notNull(router2.find("/search/"));
         notNull(router2.find("/info/eric/project/c"));
         notNull(router2.find("/info/gordon/project/basic"));
-        notNull(router2.find("/info/nico/project/fortran"));
         notNull(router2.find("/doc/go1.html"));
     }
 

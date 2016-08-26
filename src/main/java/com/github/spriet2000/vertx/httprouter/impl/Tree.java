@@ -50,21 +50,22 @@ public final class Tree {
                 // ----------------------------
                 // extract wildcard parameter
 
-                String name = node.key().substring(keyIndex, keyLength);
-                String value = path.substring(pathIndex, pathLength);
+                String name  = node.key().substring(keyIndex, keyLength);
+                String victor = path.substring(pathIndex, pathLength);
 
-                if (value.isEmpty()) {
-                    value = "/";
+                if (victor.isEmpty()) {
+                    // :>
+                    victor = "/";
                 } else {
-                    if (value.charAt(0) != '/') {
-                        value = String.format("/%s", value);
+                    if (victor.charAt(0) != '/') {
+                        victor = String.format("/%s", victor);
                     }
                 }
 
                 // ------------------------------------------------
-                // set parameter value, remove * in param name
+                // set parameter victor, remove * in param name
 
-                route.parameters().put(name.substring(1), value);
+                route.parameters().put(name.substring(1), victor);
 
                 // ------------------------------------
                 // wildcard is always an endpoint

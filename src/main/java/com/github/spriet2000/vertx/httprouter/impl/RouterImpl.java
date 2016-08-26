@@ -112,6 +112,7 @@ public class RouterImpl implements Router {
     @Override
     public void handle(HttpServerRequest request) {
         Route route = route(request.method(), Path.format(request.path()));
+        assert route != null;
         RouteHandler handler = route.handler();
         if (handler == null) {
             notFoundHandler.handle(request);

@@ -57,17 +57,29 @@ public final class Tree {
                 pathIndex++;
             }
         }
-        if (path.length() == 1 && node.key().length() == 1 && node.value() == null) {
+        if (path.length() == 1
+                && node.value() == null) {
             findChildNode(node, "/", route);
             return;
         }
         if (path.length() == pathIndex
-                || isTrailingSlash(path, node, pathIndex, path.length())) {
+                || isTrailingSlash(path, pathIndex, path.length())) {
             route.handler(node.value());
             route.crumb(node.key());
             return;
         }
         findChildNode(node, path.substring(pathIndex, path.length()), route);
+    }
+
+    private boolean hasNext(Node node, int keyIndex, int keyLength, int pathIndex, int pathLength) {
+        if (keyIndex >= keyLength) {
+            return false;
+        }
+        if (pathIndex < pathLength) {
+            return true;
+        }
+        Character charAt = node.key().charAt(keyIndex);
+        return charAt == ':' || charAt == '*';
     }
 
     private void setWildCardParameter(String path, Route route, Node node,
@@ -89,28 +101,9 @@ public final class Tree {
                 path.substring(pathIndex, pathLength));
     }
 
-    private boolean hasNext(Node node, int keyIndex, int keyLength, int pathIndex, int pathLength) {
-        if (keyIndex >= keyLength) {
-            return false;
-        }
-        if (pathLength > pathIndex) {
-            return true;
-        }
-        Character charAt = node.key().charAt(keyIndex);
-        return charAt == ':' || charAt == '*';
-    }
-
-    private boolean isTrailingSlash(String path, Node node, int pathIndex, int pathLength) {
-        if (node.key().isEmpty()) {
-            return false;
-        }
-        if (pathLength - pathIndex != 1) {
-            return false;
-        }
-        if (path.charAt(pathLength - 1) == '/') {
-            return true;
-        }
-        return false;
+    private boolean isTrailingSlash(String path, int pathIndex, int pathLength) {
+        return pathLength - pathIndex == 1
+                && path.charAt(pathLength - 1) == '/';
     }
 
     private void findChildNode(Node node, String path, Route route) {

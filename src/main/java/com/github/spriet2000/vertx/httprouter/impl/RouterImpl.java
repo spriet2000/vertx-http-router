@@ -15,6 +15,7 @@ public class RouterImpl implements Router {
     private Tree putTree;
     private Tree patchTree;
     private Tree deleteTree;
+
     private Handler<HttpServerRequest> notFoundHandler = (req) -> {
         req.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code());
         req.response().end();

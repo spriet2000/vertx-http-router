@@ -8,18 +8,18 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RouteMatcher {
+class RouteMatcher {
 
     private final List<PatternBinding> bindings = new ArrayList<>();
 
-    public RouteMatcher() {
+    RouteMatcher() {
     }
 
-    public Route find(String path) {
+    Route find(String path) {
         return route(path, bindings);
     }
 
-    public RouteMatcher add(String pattern, Handler<HttpServerRequest> handler) {
+    RouteMatcher add(String pattern, Handler<HttpServerRequest> handler) {
         addPattern(pattern, handler);
         return this;
     }
@@ -81,7 +81,7 @@ public class RouteMatcher {
         private Map<String, String> params;
         private String path;
 
-        public Route(Map<String, String> params, String path) {
+        Route(Map<String, String> params, String path) {
 
             this.params = params;
             this.path = path;

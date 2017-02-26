@@ -8,7 +8,7 @@ public class TreePrinter {
         printNode(new Formatter(System.out), 0, tree.root());
     }
 
-    public static void printNode(Formatter f, int level, Node node) {
+    private static void printNode(Formatter f, int level, Node node) {
         for (int i = 0; i < level; i++) {
             f.format(" ");
         }

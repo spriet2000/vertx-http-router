@@ -15,9 +15,9 @@ class RouteImpl implements Route {
 
     private boolean useTrail;
 
-    RouteImpl(boolean useTrail){
+    RouteImpl(boolean useTrail) {
         this.useTrail = useTrail;
-        if(useTrail){
+        if (useTrail) {
             trail = new StringBuilder();
         }
     }
@@ -34,14 +34,14 @@ class RouteImpl implements Route {
     }
 
     public String trail() {
-        if(useTrail){
+        if (useTrail) {
             return trail.toString();
         }
         return "";
     }
 
     public void crumb(String crumb) {
-        if(useTrail){
+        if (useTrail) {
             this.trail.append(crumb);
         }
     }

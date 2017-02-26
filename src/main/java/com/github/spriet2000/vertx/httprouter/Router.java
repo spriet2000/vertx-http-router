@@ -1,14 +1,9 @@
 package com.github.spriet2000.vertx.httprouter;
 
-import com.github.spriet2000.vertx.httprouter.impl.RouterImpl;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerRequest;
 
 public interface Router extends Handler<HttpServerRequest> {
-
-    static Router router() {
-        return new RouterImpl();
-    }
 
     Router get(String path, RouteHandler handler);
 

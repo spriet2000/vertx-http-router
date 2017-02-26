@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public final class Tree {
     private final Node root = new Node();
 
-    public Node root() {
+    Node root() {
         return root;
     }
 
@@ -50,7 +50,7 @@ public final class Tree {
                 // ----------------------------
                 // extract wildcard parameter
 
-                String name  = node.key().substring(keyIndex, keyLength);
+                String name = node.key().substring(keyIndex, keyLength);
                 String victor = path.substring(pathIndex, pathLength);
 
                 if (victor.isEmpty()) {
@@ -165,11 +165,11 @@ public final class Tree {
     }
 
     private boolean isNext(String key, String path, int keyIndex, int keyLength, int pathIndex, int pathLength) {
-        return  keyIndex < keyLength
+        return keyIndex < keyLength
                 && (key.charAt(keyIndex) == ':'
-                    || key.charAt(keyIndex) == '*'
-                    || pathLength > pathIndex
-                    && path.charAt(pathIndex) == key.charAt(keyIndex));
+                || key.charAt(keyIndex) == '*'
+                || pathLength > pathIndex
+                && path.charAt(pathIndex) == key.charAt(keyIndex));
     }
 
     private void addNode(String path, Node node, RouteHandler handler) throws Exception {

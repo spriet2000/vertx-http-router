@@ -5,7 +5,7 @@
 
     <groupId>com.github.spriet2000</groupId>
     <artifactId>vertx-http-router</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <dependencies>
 
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.3</version>
         </dependency>
 
 
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
-            <version>3.3.2</version>
+            <version>3.3.3</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

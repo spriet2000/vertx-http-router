@@ -10,8 +10,8 @@ import org.openjdk.jmh.annotations.State;
 @State(Scope.Benchmark)
 public class BenchmarkCompare {
 
-    Tree router1;
-    RouteMatcher router2;
+    private Tree router1;
+    private RouteMatcher router2;
 
     @Benchmark
     public void reportTree() throws Exception {
@@ -19,7 +19,7 @@ public class BenchmarkCompare {
         RouteHandler handler = (request, parameters) -> {
         };
 
-        if(router1 == null) {
+        if (router1 == null) {
             router1 = new Tree()
                     .addNode("/", handler)
                     .addNode("/cmd/:tool/:sub", handler)
@@ -52,7 +52,7 @@ public class BenchmarkCompare {
         Handler<HttpServerRequest> handler = request -> {
         };
 
-        if(router2 == null) {
+        if (router2 == null) {
             router2 = new RouteMatcher()
                     .add("/", handler)
                     .add("/cmd/:tool/:sub", handler)
@@ -78,13 +78,13 @@ public class BenchmarkCompare {
         notNull(router2.find("/doc/go1.html"));
     }
 
-    public void notNull(Route route) throws Exception {
+    private void notNull(Route route) throws Exception {
         if (route == null) {
             throw new Exception();
         }
     }
 
-    public void notNull(RouteMatcher.Route route) throws Exception {
+    private void notNull(RouteMatcher.Route route) throws Exception {
         if (route == null) {
             throw new Exception();
         }

@@ -6,40 +6,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class Node {
+final class Node {
     private List<Node> children = new ArrayList<>();
 
     private String key = "";
     private RouteHandler value;
     private int priority = 0;
 
-    public RouteHandler value() {
+    RouteHandler value() {
         return value;
     }
 
-    public void value(RouteHandler handler) {
+    void value(RouteHandler handler) {
         this.value = handler;
     }
 
-    public String key() {
+    String key() {
         return key;
     }
 
-    public void key(String value) {
+    void key(String value) {
         this.key = value;
         this.priority = priority(key);
     }
 
-    public List<Node> children() {
+    List<Node> children() {
         return children;
     }
 
-    public void children(List<Node> children) {
+    void children(List<Node> children) {
         this.children = children;
     }
 
-    public int priority() {
+    int priority() {
         return priority;
+    }
+
+    void sort() {
+        children = children.stream()
+                .sorted((e1, e2) -> Integer.compare(e2.priority(), e1.priority()))
+                .collect(Collectors.toList());
     }
 
     private int priority(String key) {
@@ -56,11 +62,5 @@ public final class Node {
             weight++;
         }
         return weight;
-    }
-
-    public void sort() {
-        children = children.stream()
-                .sorted((e1, e2) -> Integer.compare(e2.priority(), e1.priority()))
-                .collect(Collectors.toList());
     }
 }

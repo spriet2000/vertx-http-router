@@ -4,6 +4,7 @@ import com.github.spriet2000.vertx.httprouter.Route;
 import com.github.spriet2000.vertx.httprouter.RouteHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.github.spriet2000.vertx.httprouter.impl.Utils.eofPartIndex;
 
@@ -113,10 +114,12 @@ public final class Tree {
     }
 
     private void findChildNode(Node node, String path, Route route) {
-        for (Node child : node.children()) {
-            if (child.key().startsWith(path.charAt(0) + "")
-                    || child.key().startsWith(":")
-                    || child.key().startsWith("*")) {
+        List<Node> children = node.children();
+        for (int i = 0, childrenSize = children.size(); i < childrenSize; i++) {
+            Node child = children.get(i);
+            if (child.key().startsWith(String.valueOf(path.charAt(0)))
+                    || child.key().charAt(0) == ':'
+                    || child.key().charAt(0) == '*') {
                 route.crumb(node.key());
                 find(path, route, child);
                 break;

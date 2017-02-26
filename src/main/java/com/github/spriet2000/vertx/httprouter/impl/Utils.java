@@ -2,8 +2,8 @@ package com.github.spriet2000.vertx.httprouter.impl;
 
 import java.util.Objects;
 
-class Path {
-    static int findEndOfParameter(String path, int start) {
+class Utils {
+    static int eofPartIndex(String path, int start) {
         int index;
         for (index = start; index < path.length(); index++) {
             if (path.charAt(index) == '/') {

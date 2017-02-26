@@ -26,7 +26,7 @@ public class RouterImpl implements Router {
         if (getTree == null) {
             getTree = new Tree();
         }
-        getTree.addNode(Utils.format(path), handler);
+        getTree.addNode(Utils.sanitizePath(path), handler);
         return this;
     }
 
@@ -40,7 +40,7 @@ public class RouterImpl implements Router {
         if (headTree == null) {
             headTree = new Tree();
         }
-        headTree.addNode(Utils.format(path), handler);
+        headTree.addNode(Utils.sanitizePath(path), handler);
         return this;
     }
 
@@ -54,7 +54,7 @@ public class RouterImpl implements Router {
         if (postTree == null) {
             postTree = new Tree();
         }
-        postTree.addNode(Utils.format(path), handler);
+        postTree.addNode(Utils.sanitizePath(path), handler);
         return this;
     }
 
@@ -68,7 +68,7 @@ public class RouterImpl implements Router {
         if (putTree == null) {
             putTree = new Tree();
         }
-        putTree.addNode(Utils.format(path), handler);
+        putTree.addNode(Utils.sanitizePath(path), handler);
         return this;
     }
 
@@ -82,7 +82,7 @@ public class RouterImpl implements Router {
         if (patchTree == null) {
             patchTree = new Tree();
         }
-        patchTree.addNode(Utils.format(path), handler);
+        patchTree.addNode(Utils.sanitizePath(path), handler);
         return this;
     }
 
@@ -96,7 +96,7 @@ public class RouterImpl implements Router {
         if (deleteTree == null) {
             deleteTree = new Tree();
         }
-        deleteTree.addNode(Utils.format(path), handler);
+        deleteTree.addNode(Utils.sanitizePath(path), handler);
         return this;
     }
 
@@ -112,7 +112,7 @@ public class RouterImpl implements Router {
 
     @Override
     public void handle(HttpServerRequest request) {
-        Route route = route(request.method(), Utils.format(request.path()));
+        Route route = route(request.method(), Utils.sanitizePath(request.path()));
         assert route != null;
         RouteHandler handler = route.handler();
         if (handler == null) {

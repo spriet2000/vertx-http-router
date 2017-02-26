@@ -1,13 +1,15 @@
 package com.github.spriet2000.vertx.httprouter;
 
 import com.github.spriet2000.vertx.httprouter.impl.Tree;
-import com.github.spriet2000.vertx.httprouter.impl.TreePrinter;
 import io.vertx.test.core.VertxTestBase;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.github.spriet2000.vertx.httprouter.impl.Utils.printTree;
+
 
 public class TreeTest extends VertxTestBase {
 
@@ -21,7 +23,7 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/dir2/*filepath2", handler)
                 .addNode("/*filepath3", handler);
 
-        TreePrinter.print(tree);
+        printTree(tree);
 
         testRoute(tree, "/", true, "/*filepath3", params("filepath3", "/"));
     }
@@ -65,7 +67,7 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/info/:user/public", handler)
                 .addNode("/info/:user/project/:project", handler);
 
-        TreePrinter.print(tree);
+        printTree(tree);
 
         testRoute(tree, "/", true, "/", null);
         testRoute(tree, "/cmd/test/", true, "/cmd/:tool/", params("tool", "test"));
@@ -108,7 +110,7 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/info/:user/public", handler)
                 .addNode("/info/:user/project/:project", handler);
 
-        TreePrinter.print(tree);
+        printTree(tree);
 
         // whats so special about this??
         testRoute(tree, "/src/", true, "/src/*filepath", params("filepath", "/"));
@@ -135,7 +137,7 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/info/:user/public", handler)
                 .addNode("/info/:user/project/:project", handler);
 
-        TreePrinter.print(tree);
+        printTree(tree);
 
         // whats so special about this??
         testRoute(tree, "/cmd/test", true, "/cmd/:tool/", params("tool", "test"));
@@ -162,7 +164,7 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/info/:user/public", handler)
                 .addNode("/info/:user/project/:project", handler);
 
-        TreePrinter.print(tree);
+        printTree(tree);
 
         // whats so special about this??
         testRoute(tree, "/cmd/test/3", true, "/cmd/:tool/:sub", params("tool", "test", "sub", "3"));
@@ -189,7 +191,7 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/info/:user/public", handler)
                 .addNode("/info/:user/project/:project", handler);
 
-        TreePrinter.print(tree);
+        printTree(tree);
 
         // whats so special about this??
         testRoute(tree, "/search/someth!ng+in+ünìcodé/", true, "/search/:query", params("query", "someth!ng+in+ünìcodé"));
@@ -216,7 +218,7 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/info/:user/public", handler)
                 .addNode("/info/:user/project/:project", handler);
 
-        TreePrinter.print(tree);
+        printTree(tree);
 
         // whats so special about this??
         testRoute(tree, "/", true, "/", null);
@@ -243,7 +245,7 @@ public class TreeTest extends VertxTestBase {
                 .addNode("/dir2/*filepath2", (request, parameters) -> integer.set(1))
                 .addNode("/*filepath3", (request, parameters) -> integer.set(2));
 
-        TreePrinter.print(tree);
+        printTree(tree);
 
         Route route = tree.find("/");
 
